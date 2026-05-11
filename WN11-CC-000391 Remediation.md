@@ -13,6 +13,16 @@ This ensures IE11 cannot run as a standalone browser.
 - PowerShell should be used for verification only
 - Correct remediation must be done through GPO
 
+✔ Key idea
+- ADMX = definition of the policy
+- GPO = what you configure
+- Registry = what Windows writes after applying GPO
+
+So for this STIG:
+
+You do NOT fix it by editing the registry
+You fix it by setting the GPO, which then updates the registry automatically.
+
 ---
 
 ## ✔ Recommended Remediation (Group Policy)
