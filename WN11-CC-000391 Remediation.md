@@ -1,11 +1,17 @@
 # STIG Remediation Guide – WN11-CC-000391
 
 ## Overview
-This STIG requires configuring Internet Explorer 11 behavior in Windows 11:
 
 > **Disable Internet Explorer 11 as a standalone browser = Enabled (Never)**
 
 This ensures IE11 cannot run as a standalone browser.
+
+✔ Key Notes
+
+- This setting is controlled by Group Policy (ADMX)
+- Registry values are only a reflection of policy state
+- PowerShell should be used for verification only
+- Correct remediation must be done through GPO
 
 ---
 
