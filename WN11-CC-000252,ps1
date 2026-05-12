@@ -1,0 +1,58 @@
+# WN11-CC-000252
+# Disable Windows Game Recording and Broadcasting
+
+$RegistryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+$ValueName = "AllowGameDVR"
+$DesiredValue = 0
+
+Write-Host "Checking compliance..."
+
+# Create registry path if missing
+if (-not (Test-Path $RegistryPath)) {
+    New-Item -Path $RegistryPath -Force | Out-Null
+}
+
+# Get current value
+$currentValue = $null
+
+try {
+    $currentValue = (Get-ItemProperty `
+        -Path $RegistryPath `
+        -Name $ValueName `
+        -ErrorAction Stop).$ValueName
+}
+catch {
+    Write-Host "Registry value missing."
+}
+
+# Remediation
+if ($currentValue -ne $DesiredValue) {
+
+    Write-Host "Applying remediation..."
+
+    New-ItemProperty `
+        -Path $RegistryPath `
+        -Name $ValueName `
+        -Value $DesiredValue `
+        -PropertyType DWORD `
+        -Force | Out-Null
+
+    Write-Host "Remediation applied."
+}
+else {
+    Write-Host "System already compliant."
+}
+
+# Validation
+Write-Host "Validating configuration..."
+
+$validatedValue = (Get-ItemProperty `
+    -Path $RegistryPath `
+    -Name $ValueName).$ValueName
+
+if ($validatedValue -eq $DesiredValue) {
+    Write-Host "VALIDATION PASSED - AllowGameDVR = 0"
+}
+else {
+    Write-Host "VALIDATION FAILED"
+}
